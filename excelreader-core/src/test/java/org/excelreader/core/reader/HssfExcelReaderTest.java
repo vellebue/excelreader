@@ -18,4 +18,11 @@ public class HssfExcelReaderTest extends AbstractExcelReaderTest {
 		ExcelReader reader = getReaderFromResource("org/excelreader/core/reader/simpleExcel.xls");
 		super.shouldExtractExcelDataFromASingleSheetExcel(reader);
 	}
+	
+	@Test
+	public void shouldExtractExcelDataFromASingleSheetExcelWithSeveralCellTypes()
+			throws Exception {
+		ExcelReader reader = getReaderFromResource("org/excelreader/core/reader/excelWithSeveralCellTypes.xls");
+		super.shouldExtractExcelDataFromASingleSheetExcelWithSeveralCellTypes(reader);
+	}
 }

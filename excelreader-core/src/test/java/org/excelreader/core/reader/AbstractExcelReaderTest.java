@@ -17,18 +17,25 @@ public abstract class AbstractExcelReaderTest {
 	
 	
 	public void shouldExtractExcelDataFromASingleSheetExcel(ExcelReader reader) throws Exception{
-		//InputStream stream = Thread.currentThread().getContextClassLoader()
-		//		.getResourceAsStream("org/excelreader/core/reader/simpleExcel.xls");
-		//HssfExcelReader reader = new HssfExcelReader(stream);
 		ExcelDocument document = reader.getDocument();
 		assertEquals(1, document.getNumberOfSheets());
-		String [][] sheet = document.getSheetAt(0);
+		Object [][] sheet = document.getSheetAt(0);
 		assertEquals("John", sheet[0][0]);
 		assertEquals("Mary", sheet[0][1]);
 		assertEquals("Paul", sheet[0][2]);
 		assertEquals("Leila", sheet[1][0]);
 		assertEquals("Francis", sheet[1][1]);
 		assertEquals("Jessica", sheet[1][2]);
+	}
+	
+	public void shouldExtractExcelDataFromASingleSheetExcelWithSeveralCellTypes(ExcelReader reader) {
+		ExcelDocument document = reader.getDocument();
+		assertEquals(1, document.getNumberOfSheets());
+		Object [][] sheet = document.getSheetAt(0);
+		assertEquals("John Doe", sheet[0][0]);
+		assertEquals(new Double(1432.26), sheet[0][1]);
+		assertEquals(new Double(42208.0), sheet[0][2]);
+		assertEquals(Boolean.TRUE, sheet[0][3]);
 	}
 
 }

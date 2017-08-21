@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class ExcelDocument {
 	
-	private List<Map.Entry<String, String [][]>> sheetsList = new ArrayList<Map.Entry<String,String[][]>>();
+	private List<Map.Entry<String, Object [][]>> sheetsList = new ArrayList<Map.Entry<String,Object[][]>>();
 	
-	public String [][] getSheetAt(int index) {
+	public Object [][] getSheetAt(int index) {
 		return sheetsList.get(index).getValue();
 	}
 	
-	public String [][] getSheetByName(String name) {
-		for (Map.Entry<String, String [][]> entry : sheetsList) {
+	public Object [][] getSheetByName(String name) {
+		for (Map.Entry<String, Object [][]> entry : sheetsList) {
 			if (entry.getKey().equals(name)) {
 				return entry.getValue();
 			}
@@ -22,8 +22,8 @@ public class ExcelDocument {
 		return null;
 	}
 
-	public void putSheet(String name, String [][] sheet) {
-		Map.Entry<String, String [][]> entry = new AbstractMap.SimpleImmutableEntry<String, String [][]>(name, sheet);
+	public void putSheet(String name, Object [][] sheet) {
+		Map.Entry<String, Object [][]> entry = new AbstractMap.SimpleImmutableEntry<String, Object [][]>(name, sheet);
 		sheetsList.add(entry);
 	}
 	

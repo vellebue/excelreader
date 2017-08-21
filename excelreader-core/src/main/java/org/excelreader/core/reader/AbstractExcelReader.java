@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -22,13 +23,13 @@ public abstract class AbstractExcelReader implements ExcelReader{
 		ExcelDocument document = new ExcelDocument();
 		for (int i = 0 ; i < workbook.getNumberOfSheets() ; i++) {
 			Sheet sheet = workbook.getSheetAt(i);
-			String [][] documentSheet = buildDocumentSheet(sheet);
+			Object [][] documentSheet = buildDocumentSheet(sheet);
 			document.putSheet(sheet.getSheetName(), documentSheet);
 		}
 		return document;
 	}
 	
-	private String [][] buildDocumentSheet(Sheet sheet) {
+	private Object [][] buildDocumentSheet(Sheet sheet) {
 		int lastRowNum = sheet.getLastRowNum();
 		// Determine the maximum column number
 		int lastCellNum = -1;
@@ -42,14 +43,21 @@ public abstract class AbstractExcelReader implements ExcelReader{
 			}
 		}
 		// Transfer data
-		String [][] result = new String[lastRowNum + 1][lastCellNum + 1];
+		Object [][] result = new Object[lastRowNum + 1][lastCellNum + 1];
 		for (int i = 0 ; i <= lastRowNum ; i++) {
 			Row row = sheet.getRow(i);
 			if (row != null) {
 				for (int j = 0 ; j < row.getLastCellNum() ; j++) {
 					Cell cell = row.getCell(j);
-					if (cell != null) {
-						result[i][j] = cell.getStringCellValue();
+					if (cell != null && !cell.getCellTypeEnum().equals(CellType.BLANK)) {
+						if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+							result[i][j] = cell.getStringCellValue();
+						} else if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+							result[i][j] = new Double(cell.getNumericCellValue());
+						} else if (cell.getCellTypeEnum().equals(CellType.BOOLEAN)) {
+							result[i][j] = new Boolean(cell.getBooleanCellValue());
+						}
+						// TODO Consider formula expression values
 					}
 				}
 			}
