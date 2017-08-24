@@ -27,7 +27,7 @@
   	<plugins>
         <plugin>
             <groupId>com.atlassian.clover</groupId>
-            <artifactId>clover</artifactId>
+            <artifactId>clover-maven-plugin</artifactId>
             <version>4.1.2</version>
         </plugin>
     </plugins>
